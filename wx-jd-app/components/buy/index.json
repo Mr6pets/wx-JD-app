@@ -1,0 +1,6 @@
+{
+  "component": true,
+  "usingComponents": {
+    "amount":"/components/amount/index"
+  }
+}
