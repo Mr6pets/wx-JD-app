@@ -1,6 +1,7 @@
-//获取应用实例
+//获取应用实例，这个方法可以拿到app.js 文件中的全局的APP实例
 const app=getApp();
-// console.log(app)
+// console.log(app)；
+//这里如果打印，就可以获取到全局的信息，包含app.js中globalData里面的信息
 Page({
 
   /**
