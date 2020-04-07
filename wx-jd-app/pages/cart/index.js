@@ -39,16 +39,18 @@ Page({
   selectGood(e){//点击选中的按钮执行的函数
     var index=e.currentTarget.dataset.index;
     const cartArray=this.data.cartArray;
+    
     //计算合计
     let totalMoney=Number(this.data.totalMoney);
     let totalCount=this.data.totalCount;
     
     //如果是选中状态
     if(cartArray[index].select){
-      totalMoney+=Number(cartArray[index].price)*cartArray[index].total;
+      totalMoney += Number(cartArray[index].price) * cartArray[index].total
       totalCount++
     }else{//没有选中
-      totalMoney-=Number(cartArray[index].price)*cartArray[index].total
+      totalMoney-=Number(cartArray[index].price )* cartArray[index].total;
+      totalCount--
     }
 
     //设置选中或者不选中的状态
@@ -56,7 +58,9 @@ Page({
 
     //更新数据
     this.setData({
-      cartArray:cartArray
+      cartArray:cartArray,
+      totalMoney:String(totalMoney.toFixed(2)),
+      totalCount:totalCount
     })
   },
   /**
