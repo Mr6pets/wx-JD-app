@@ -39,7 +39,6 @@
         <view class='select_all' catchtap='selectAll'>
            <image wx:if='{{selectAll}}' class='icon' src='/image/selected.png'></image>
            <image wx:else class='icon' src='/image/unselect.png'></image>
-           
            <text>全选</text>
         </view>
         <view class='total'>

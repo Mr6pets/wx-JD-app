@@ -43,6 +43,7 @@ Page({
     let totalMoney=Number(this.data.totalMoney);
     let totalCount=this.data.totalCount;
 
+    let selectAll=this.data.selectAll;
     //设置选中或者不选中的状态
     cartArray[index].select=!cartArray[index].select
 
@@ -53,36 +54,35 @@ Page({
     }else{//没有选中
       totalMoney-=Number(cartArray[index].price )* cartArray[index].total;
       totalCount--
+      //当我没有选中的时候，也该表全选在状态
+      selectAll=false;
     }
 
     //更新数据
     this.setData({
       cartArray:cartArray,
       totalMoney:String(totalMoney.toFixed(2)),
-      totalCount:totalCount
+      totalCount:totalCount,
+      selectAll:selectAll
     })
   },
   subCount(e){
-    const index=e.currentTarget.dataset.index;
-    const cartArray=this.data.cartArray;
-
-    let totalMoney=this.data.totalMoney;
-
-    //计算金额
-    if(cartArray[index].select){
-      totalMoney-=Number(cartArray[index].price) * cartArray[index].total
+    const index = e.currentTarget.dataset.index
+    const cartArray = this.data.cartArray
+    let totalMoney = Number(this.data.totalMoney)
+    // 计算金额
+    if (cartArray[index].select) {
+      totalMoney -= Number(cartArray[index].price)
     }
-
-    //更新数据
     this.setData({
-      totalMoney:String(totalMoney.toFixed(2))
+      totalMoney: String(totalMoney.toFixed(2))
     })
   },
   addCount(e){
     const index=e.currentTarget.dataset.index;
     const cartArray=this.data.cartArray;
 
-    let totalMoney=this.data.totalMoney;
+    let totalMoney=Number(this.data.totalMoney);
 
     //计算金额
     if(cartArray[index].select){
@@ -93,6 +93,34 @@ Page({
     this.setData({
       totalMoney:String(totalMoney.toFixed(2))
     })
+  },
+  selectAll(){//点击全选按钮
+    const cartArray=this.data.cartArray;
+    let totalCount=0;
+    let totalMoney=0;
+    let selectAll=this.data.selectAll;
+    
+    //点击全选按钮，取反这个值
+    selectAll=!selectAll;
+    cartArray.forEach(item=>{//遍历所有的对象中的select属性为 true或者false
+      item.select=selectAll;
+      //如果全部选中计算总价
+      if(item.select){
+        totalMoney+=Number(item.price)*item.total;
+        totalCount++
+      }else{//如果都不选 那就是全部为0
+        totalMoney=0;
+        totalCount=0;
+      }
+    })
+    //更新数据
+    this.setData({
+      cartArray:cartArray,
+      totalMoney:String(totalMoney.toFixed(2)),
+      totalCount:totalCount,
+      selectAll:selectAll 
+    })
+
   },
   /**
    * 生命周期函数--监听页面初次渲染完成
@@ -115,7 +143,11 @@ Page({
           cart.select=false;//全都不选中
         })
         _this.setData({
-          cartArray:cartArray
+          cartArray:cartArray,
+          //离开在进来就初始化,这样就没错进来都初始化
+          selectAll:false,
+          totalMoney:"0.00",
+          totalCount:0
         })
         //设置tabbar图标
         cartArray.length>0?
