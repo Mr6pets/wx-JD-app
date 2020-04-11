@@ -7,7 +7,7 @@
       <block wx:for='{{cartArray}}' wx:key='index'>
        <view class="good_list {{item.isTouchMove ? 'touch-move-active' : ''}}" bindtap='switchGoodsDetail' data-index="{{index}}" >
           <view class='content'>
-          <view class='select_icon' catchtap='selectGood' data-index='{{index}}'>       
+          <view class='select_icon' catchtap='selectGoods' data-index='{{index}}'>       
             <image wx:if='{{item.select}}' src='/image/selected.png'></image>         
             <image class='icon' wx:else src='/image/unselect.png'></image>
           </view>
@@ -20,7 +20,13 @@
                 <view class='good_price'>
                    <text class='price'>{{item.price}}</text>
                    <!-- 商品数量 -->
-                   <amount count='{{item.total}}' data-index='{{index}}' bind:myevent="getCount"></amount>
+                   <amount 
+                   count='{{item.total}}' 
+                   data-index='{{index}}' 
+                   bind:myevent="getCount"
+                   bind:subevent="subCount"
+                   bind:addevent="addCount"
+                   />
                 </view>
              </view>
           </view>

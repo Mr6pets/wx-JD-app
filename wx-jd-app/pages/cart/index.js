@@ -36,14 +36,16 @@ Page({
       url: '/pages/detail/index?id=' + cartArray[index].id,
     })
   },
-  selectGood(e){//点击选中的按钮执行的函数
-    var index=e.currentTarget.dataset.index;
+  selectGoods(e){//点击选中的按钮执行的函数
+    const index=e.currentTarget.dataset.index;
     const cartArray=this.data.cartArray;
-    
     //计算合计
     let totalMoney=Number(this.data.totalMoney);
     let totalCount=this.data.totalCount;
-    
+
+    //设置选中或者不选中的状态
+    cartArray[index].select=!cartArray[index].select
+
     //如果是选中状态
     if(cartArray[index].select){
       totalMoney += Number(cartArray[index].price) * cartArray[index].total
@@ -53,14 +55,43 @@ Page({
       totalCount--
     }
 
-    //设置选中或者不选中的状态
-    cartArray[index].select=!cartArray[index].select
-
     //更新数据
     this.setData({
       cartArray:cartArray,
       totalMoney:String(totalMoney.toFixed(2)),
       totalCount:totalCount
+    })
+  },
+  subCount(e){
+    const index=e.currentTarget.dataset.index;
+    const cartArray=this.data.cartArray;
+
+    let totalMoney=this.data.totalMoney;
+
+    //计算金额
+    if(cartArray[index].select){
+      totalMoney-=Number(cartArray[index].price) * cartArray[index].total
+    }
+
+    //更新数据
+    this.setData({
+      totalMoney:String(totalMoney.toFixed(2))
+    })
+  },
+  addCount(e){
+    const index=e.currentTarget.dataset.index;
+    const cartArray=this.data.cartArray;
+
+    let totalMoney=this.data.totalMoney;
+
+    //计算金额
+    if(cartArray[index].select){
+      totalMoney+=Number(cartArray[index].price) * cartArray[index].total
+    }
+
+    //更新数据
+    this.setData({
+      totalMoney:String(totalMoney.toFixed(2))
     })
   },
   /**

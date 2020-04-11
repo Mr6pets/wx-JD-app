@@ -44,7 +44,7 @@ Component({
       this.triggerEvent("myevent",myEventDetail);
 
       //接口处留存 点击减号触发
-      this.triggerEvent("subevemt");
+      this.triggerEvent("subevent");
 
     },
     add(e){
